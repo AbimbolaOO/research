@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import axios from "axios";
 
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 function App() {
   useEffect(() => {
     const connectToApi = async () => {
       try {
-        const { data } = await axios("/ok");
+        const { data } = await axios("http://localhost:8000/ok");
         console.log("######", "api ok");
       } catch (err) {
         console.log(err);
@@ -21,7 +21,7 @@ function App() {
     try {
       const { data } = await axios({
         method: "post",
-        url: "/create",
+        url: "http://localhost:8000/create",
         data: {
           ...values,
         },
@@ -36,9 +36,15 @@ function App() {
     try {
       const { data } = await axios({
         method: "post",
-        url: "/create2",
+        url: "http://localhost:8000/create2",
         data: {
           ...values,
+        },
+        crossDomain: true,
+        headers: {
+          Cookie: "session",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
         },
       });
       console.log(">>>>", data);
@@ -52,7 +58,7 @@ function App() {
       const { data } = await axios({
         method: "post",
         withCredentials: true,
-        url: "/getCookie",
+        url: "http://localhost:8000/getCookie",
         data: {
           ...values,
         },
@@ -62,6 +68,22 @@ function App() {
       console.log(err);
     }
   };
+
+  // const onSubmit3 = async (values) => {
+  //   try {
+  //     const { data } = await axios.post(
+  //       "/getCookie",
+  //       {
+  //         ...values,
+  //       },
+  //       { withCredentials: true }
+  //     );
+
+  //     console.log("||||||", data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   return (
     <div>
